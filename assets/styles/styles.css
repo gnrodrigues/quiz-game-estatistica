@@ -1,8 +1,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  font-family: Gotham Rounded;
+  font-family: Sans-Serif;
   margin: 0;
   padding: 0;
 }
@@ -14,8 +13,11 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #68b0d9;
+  background-color: #F2F2F2;
+  color:#005594;
+  font-family: Sans-Serif;
 }
+
 
 h3 {
   margin: 10px 0px;
@@ -28,8 +30,10 @@ h3 {
 }
 
 .quizArea {
+  position: absolute;
+  top: 80px;
   width: 60vw;
-  max-width: 90%;
+  max-width: 100%;
   background-color: white;
   border-radius: 5px;
   padding: 10px;
@@ -46,7 +50,7 @@ h3 {
 button {
   --hue: var(--hue-neutral);
   border: 1px solid grey;
-  background-color: #0e2939;
+  background-color: #F78B1F;
   border-radius: 5px;
   padding: 5px 10px;
   color: white;
@@ -103,6 +107,11 @@ button:hover {
 
 #showScoresButton {
   margin-top: 0.3rem;
+}
+
+img {
+  max-width: 100px;
+  max-height: 50px
 }
 
 @media only screen and (max-width: 768px) {
