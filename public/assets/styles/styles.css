@@ -109,7 +109,12 @@ button:hover {
   margin-top: 0.3rem;
 }
 
-img {
+#imagem {
+  max-width: 300px;
+  max-height: 600px
+}
+
+#senac  {
   max-width: 100px;
   max-height: 50px
 }

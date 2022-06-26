@@ -5,12 +5,13 @@ let score = 0;
 let username = "";
 let qNumber;
 let finalScore;
-const MAX_HIGH_SCORES = 60;
+const MAX_HIGH_SCORES = 10;
 
 //DOM Objects = START BUTTON, ANSWER BUTTONS, QUESTION CONTAINER, QUESTION ELEMENT
 const startButton = document.getElementById("startButton");
 const qContainer = document.getElementById("questionsContainer");
 const qElement = document.getElementById("question");
+const qImage = document.getElementById("imagem");
 const answerButtons = document.getElementById("answers");
 const countdown = document.getElementById("timerArea");
 const scoreArea = document.getElementById("scoreArea");
@@ -37,7 +38,7 @@ function startGame() {
   while (answerButtons.firstChild) {
     answerButtons.removeChild(answerButtons.firstChild);
   }
-  showQuestion(questionsFacil[getRandomInt(3)]);
+  showQuestion(perguntasFacil[getRandomInt(3)]);
 }
 
 function getRandomInt(max) {
@@ -47,6 +48,14 @@ function getRandomInt(max) {
 //function to display the questions
 //should load one object from the questions array into the proper html elements, then run the function to collect answers
 function showQuestion(question) {
+  document.getElementById("regras").style.display = 'none';
+  if(typeof question.imagem == 'undefined'){
+  document.getElementById("imagem").style.display = 'hidden';
+  } else {
+  document.getElementById("imagem").style.display = 'inline-block';
+  document.getElementById("imagem").style.display = 'visible';
+  qImage.src = question.imagem;
+  }
   qElement.innerText = question.question;
   question.answers.forEach(answer => {
     const button = document.createElement("button");
@@ -81,13 +90,13 @@ function selectAnswer(e) {
     timer = timer - 100;
     console.log(timer);
   }
-  shuffle(questionsMedia);
-  if (qNumber == questionsMedia.length - 1) {
+  shuffle(perguntasMedia);
+  if (qNumber == perguntasMedia.length - 1) {
     gameOver();
   } else {
     clearQuestion();
     qNumber++;
-    showQuestion(questionsMedia[qNumber]);
+    showQuestion(perguntasMedia[qNumber]);
     console.log(score);
   }
 }
@@ -122,6 +131,8 @@ function clearQuestion() {
 //should grab the current time remaining and set it as the score, hide the questions area, display the score to the user, and give them the chance to try again or submit
 //their high scores via a text box for intials and the high scores function
 function gameOver() {
+  document.getElementById("regras").style.display = 'block';
+  document.getElementById("regras").style.display = 'visible';
   clearInterval(runningTimer);
   countdown.innerHTML = "Finalizado";
   clearQuestion();
@@ -140,6 +151,7 @@ function showResults() {
   qElement.innerText = "";
   scoreArea.classList.remove("hide");
   answerButtons.classList.add("hide");
+  document.getElementById("imagem").style.display = 'none';
   scoreArea.innerHTML = `Sua pontuação é ${finalScore}!<div id="init">Nome: <input type="text" name="initials" id="initials" placeholder="Digite seu nome"><button id="save-btn" class="save-btn btn" onclick="submitScores(event)" disabled>Salvar</button>`;
   username = document.getElementById("initials");
   saveButton = document.getElementById("save-btn");
@@ -172,7 +184,7 @@ function displayScores() {
   qElement.innerText = "";
   scoreArea.classList.remove("hide");
 
-  scoreArea.innerHTML = `<h2>Notas</h2><ul id="highScoresList"></ul><button id="clearScores" class="btn" onclick="clearScores()">Limpar Notas</button>`;
+  scoreArea.innerHTML = `<h2>Pontuações</h2><ul id="highScoresList"></ul><div id="clearScores">10 Melhores Pontuações</div>`;
   const highScoresList = document.getElementById("highScoresList");
   highScoresList.innerHTML = highScores
     .map(score => {
@@ -194,44 +206,63 @@ function clearScores() {
 /////
 //Questions go Here
 /////
-const questionsFacil = [
+const perguntasFacil = [
   {
     question: "Qual a mediana [ 2, 6, 6, 6, 8, 8, 9, 11,17]?",
     answers: [
       { text: "6", correct: false },
-      { text: "6.5", correct: true },
+      { text: "6.5", correct: false },
+      { text: "11", correct: false },
       { text: "8.1", correct: false },
-      { text: "8", correct: false }
+      { text: "8", correct: true }
     ]
   },
   {
     question: "Qual a mediana [ 2, 6, 6, 6, 8, 8, 9, 11,17]?",
     answers: [
       { text: "6", correct: false },
-      { text: "6.5", correct: true },
+      { text: "15", correct: false },
       { text: "8.1", correct: false },
-      { text: "8", correct: false }
+      { text: "6.5", correct: false },
+      { text: "8", correct: true }
     ]
   },
   {
     question: "Qual a mediana [ 2, 6, 6, 6, 8, 8, 9, 11,17]?",
     answers: [
-      { text: "6", correct: false },
-      { text: "6.5", correct: true },
+      { text: "9", correct: false },
+      { text: "6.5", correct: false },
       { text: "8.1", correct: false },
-      { text: "8", correct: false }
+      { text: "2", correct: false },
+      { text: "8", correct: true }
     ]
   },
 ]
-  const questionsMedia = [
+
+  const perguntasMedia = [
+    
   {
-    question: 'How do you write "Hello World" in an alert box?',
+    question: 'Um bairro chamado Rio Oeste possui uma população total de 1,000 famílias. O instituto PesquiseJá precisa realizar uma pesquisa com erro amostral tolerável de 4%, qual tamanho mínimo da amostra para realizar a pesquisa?',
     answers: [
-      { text: 'msg("Hello World");', correct: false },
-      { text: 'prompt("Hello World");', correct: false },
-      { text: 'alertBox("Hello World");', correct: false },
-      { text: 'alert("Hello World");', correct: true }
+      { text: '625', correct: false },
+      { text: '385', correct: false },
+      { text: '152', correct: false },
+      { text: '352', correct: false },
+      { text: '40', correct: true }
     ]
   },
+  {
+    question: 'Considerando o infográfico, suponhamos que a distribuição por sexo tenha a mesma proporção por faixa etária, qual a população de meninas entre 14 e 15 anos que trabalham no Brasil?',
+    imagem:'./assets/logic/trabalhoinfantil.png',
+    answers: [
+      { text: '148,500', correct: true },
+      { text: '594,000', correct: false },
+      { text: '445,500', correct: false },
+      { text: '345,250', correct: false },
+      { text: '180,000', correct: false }
+    ]
+    
+  },
+
 ]
 
